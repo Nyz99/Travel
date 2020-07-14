@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        form{
+            width:250px;
+        }
+        input{
+            width: 70%;
+            background: #eee;
+        }
+        input:focus{
+            background: #fff;
+        }
+        form{
+            padding: 12px 12px;
+        }
+        label{
+            display: block;
+            padding-bottom:15px;
+        }
+        #img-vcode{
+            width: 55px;
+            height: 20px;
+            float:right;
+            position: relative;
+            top:2px;
+            left:-6px
+        }
+        .label-text{
+            width: 30%;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div id="header">
+            <h1>旅游信息管理系统</h1>
+        </div>
+        <div id="header-bar"></div>
+        <div id="content" style="height: 360px">
+            <img src="img/01.jpg" style="float: right;height: 310px">
+            <h2>登&emsp;录</h2>
+            <form action="province/provincelist.html" method="post">
+                <label>
+                    <div class="label-text">账&emsp;号：</div>
+                    <input type="text" name="username">
+                </label>
+                <label>
+                    <div class="label-text">密&emsp;码：</div>
+                    <input type="password" name="password">
+                </label>
+<!--                <img src="img/vcode.png" id="img-vcode">-->
+<!--                <label>-->
+<!--                    <div class="label-text">验证码：</div>-->
+<!--                    <input type="text" name="vcode" style="width: 100px">-->
+<!--                </label>-->
+                <button type="submit" @click="login">提 交</button>&emsp;
+                <a href="reg.html">注册</a>
+            </form>
+        </div>
+        <div id="footer">
+            2020/06/21
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script>
+
+    const app = new Vue({
+        el:"#app",
+        data:{
+            user:{}
+        },
+        methods:{
+            login(){//登录
+                axios.post("http://localhost:8989/user/login",this.user).then((res)=>{
+                    console.log(res.data);
+                    localStorage.setItem("userid",res.data.userId);
+                    if(res.data.state){
+                        alert(res.data.msg +",点击确定进入主页!")
+                        location.href='./province/provincelist.html';
+                    }else{
+                        alert(res.data.msg);
+                    }
+                });
+            }
+        }
+    })
+
+</script>
